@@ -1,3 +1,0 @@
-Model,Accuracy,Precision,Recall,F1-Score
-SVM (K-Fold CV),0.6324,0.632,0.6324,0.6279
-XGBoost (K-Fold CV),0.6,0.5703,0.6,0.5817
