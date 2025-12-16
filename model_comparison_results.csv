@@ -1,0 +1,4 @@
+Model,Accuracy,Precision,Recall,F1-Score
+SVM,0.6572,0.6579,0.6572,0.6554
+XGBoost,0.6402,0.6263,0.6402,0.629
+Naive Bayes,0.6402,0.6118,0.6402,0.6115
