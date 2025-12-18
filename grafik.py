@@ -34,35 +34,35 @@ date_columns = [col for col in df.columns if any(keyword in col.lower()
 
 if date_columns:
     date_col = date_columns[0]
-    print(f"\nMenggunakan kolom tanggal: {date_col}")
+    print(f"\nUsing date column: {date_col}")
     
-    # Parse tanggal
+    # Parse date
     df[date_col] = pd.to_datetime(df[date_col], errors='coerce')
     
-    # Hapus data dengan tanggal invalid
+    # Drop rows with invalid dates
     df = df.dropna(subset=[date_col])
     
     # Extract date (tanpa jam)
     df['date'] = df[date_col].dt.date
     
-    # Hitung jumlah komentar per hari
+    # Calculate comment count per day
     daily_counts = df.groupby('date').size().reset_index(name='count')
     daily_counts['date'] = pd.to_datetime(daily_counts['date'])
     daily_counts = daily_counts.sort_values('date')
     
-    # Buat grafik
+    # Create chart
     fig, ax = plt.subplots(figsize=(16, 8))
     
     ax.plot(daily_counts['date'], daily_counts['count'], 
             marker='o', linewidth=2.5, markersize=7, color='#3498db', alpha=0.8)
     
-    ax.set_xlabel('Tanggal', fontsize=16, fontweight='bold')
-    ax.set_ylabel('Jumlah Komentar', fontsize=16, fontweight='bold')
-    ax.set_title('Tren Aktivitas Komentar Publik di YouTube\nterkait Isu Dana Rp 200 Triliun', 
+    ax.set_xlabel('Date', fontsize=16, fontweight='bold')
+    ax.set_ylabel('Comment Count', fontsize=16, fontweight='bold')
+    ax.set_title('Trend of Public Comment Activity on YouTube\nRelated to the Rp 200 Trillion Fund Issue', 
                  fontsize=18, fontweight='bold', pad=25)
     ax.grid(True, alpha=0.3, linestyle='--')
     
-    # Rotasi label tanggal agar tidak overlap dengan font lebih besar
+    # Rotate date labels to avoid overlap with larger font
     plt.xticks(rotation=45, ha='right', fontsize=13)
     plt.yticks(fontsize=13)
     
@@ -75,16 +75,16 @@ if date_columns:
     plt.savefig('grafik_tren_komentar.png', dpi=300, bbox_inches='tight')
     plt.show()
     
-    print(f"\nGrafik berhasil dibuat!")
-    print(f"Total hari: {len(daily_counts)}")
-    print(f"Periode: {daily_counts['date'].min().date()} s/d {daily_counts['date'].max().date()}")
-    print(f"Total komentar: {daily_counts['count'].sum()}")
-    print(f"Rata-rata komentar per hari: {daily_counts['count'].mean():.2f}")
-    print(f"\nGrafik disimpan sebagai: grafik_tren_komentar.png")
+    print(f"\nChart successfully created!")
+    print(f"Total days: {len(daily_counts)}")
+    print(f"Period: {daily_counts['date'].min().date()} to {daily_counts['date'].max().date()}")
+    print(f"Total comments: {daily_counts['count'].sum()}")
+    print(f"Average comments per day: {daily_counts['count'].mean():.2f}")
+    print(f"\nChart saved as: grafik_tren_komentar.png")
     
 else:
-    print("\nPERINGATAN: Tidak ditemukan kolom tanggal!")
-    print("Dataset tidak memiliki informasi waktu, sehingga grafik tren tidak bisa dibuat.")
-    print("\nSolusi:")
+    print("\nWARNING: No date column found!")
+    print("The dataset does not have time information, so the trend chart cannot be created.")
+    print("\nSolutions:")
     print("1. Gunakan dataset_raw.csv atau dataset_filtered.csv yang masih punya kolom tanggal")
     print("2. Atau scraping ulang dengan menyimpan informasi publishedAt dari YouTube API")
